@@ -1,9 +1,7 @@
-from enum import Enum
-
 from weaviate.client import WeaviateClient
 
 from app.models.chunk import ChunkSavedInVDB, CollectionPropertyNameEnum
-from app.repositories.base import BaseChunkRepo
+from app.repositories.vector_db.base import BaseChunkRepo
 
 
 class WeaviateChunkRepo(BaseChunkRepo):

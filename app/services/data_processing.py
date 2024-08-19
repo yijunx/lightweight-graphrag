@@ -3,6 +3,7 @@ from app.repositories.graph_db.base import BaseFriendRepo
 
 class FriendService:
     """SERIVCE DOES NOT KNOW NEO4J or WEAVIATE!!!!"""
+
     def __init__(self, friend_repo: BaseFriendRepo) -> None:
         self.friend_repo = friend_repo
 

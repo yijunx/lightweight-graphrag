@@ -1,4 +1,5 @@
-from neo4j import GraphDatabase, RoutingControl, Driver
+from neo4j import Driver, GraphDatabase, RoutingControl
+
 from app.repositories.graph_db.base import BaseFriendRepo
 
 

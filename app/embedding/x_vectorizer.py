@@ -3,7 +3,7 @@ from typing import Iterable, List, Union
 import numpy as np
 from openai import Client
 
-from app.embedding.base_embedding import BaseVectorizer
+from app.embedding.base import BaseVectorizer
 
 
 class XInferenceVectorizer(BaseVectorizer):
