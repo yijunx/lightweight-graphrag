@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["yijunx"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+weaviate-client = "^4.7.1"
+neo4j = "^5.23.1"
+numpy = "^2.1.0"
+openai = "^1.41.0"
+pydantic-settings = "^2.4.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+isort = "^5.13.2"
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

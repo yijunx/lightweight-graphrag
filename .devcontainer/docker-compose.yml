@@ -1,0 +1,51 @@
+services:
+  app:
+    build: 
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ~/.ssh:/opt/meesa/.ssh
+      - ../.devcontainer/zshrc:/opt/meesa/.zshrc
+      - ..:/opt/meesa/code
+    command: ["tail -f /dev/null"]
+
+  weaviate:
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8080'
+    - --scheme
+    - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.25.8
+    # ports:
+    # - 8080:8080
+    # - 50051:50051
+    restart: on-failure:0
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      # ENABLE_MODULES: 'generative-openai,generative-cohere'
+      BACKUP_FILESYSTEM_PATH: '/var/lib/weaviate/backups'
+      CLUSTER_HOSTNAME: 'node1'
+
+  neo4j:
+    # Docker image to be used
+    image: neo4j:5.22.0
+    # The ports that will be accessible from outside the container - HTTP (7474) and Bolt (7687).
+    ports:
+      - "7474:7474"
+      # - "7687:7687"
+
+    # Passes the following environment variables to the container
+    environment:
+      # community edition, username must be neo4j..
+      - NEO4J_AUTH=neo4j/very-cool-password
+
+    # Simple check testing whether the port 7474 is opened.
+    # If so, the instance running inside the container is considered as "healthy".
+    # This status can be checked using the "docßker ps" command.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
