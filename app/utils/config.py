@@ -12,6 +12,7 @@ class EnvSettings(BaseSettings):
 
     EMBEDDING_ENDPOINT: str
     EMBEDDING_MODEL_UID: str
+    LLM_MODEL_UID: str
 
     WEAVIATE_HTTP_HOST: str
     WEAVIATE_HTTP_PORT: int
