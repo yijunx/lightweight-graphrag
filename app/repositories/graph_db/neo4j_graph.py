@@ -1,5 +1,5 @@
 from neo4j import GraphDatabase, RoutingControl, Driver
-from app.repositories.base_graph import BaseFriendRepo
+from app.repositories.graph_db.base import BaseFriendRepo
 
 
 class Neo4jFriendRepo(BaseFriendRepo):

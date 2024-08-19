@@ -1,6 +1,6 @@
 from app.utils.config import env
 from app.services.service import FriendService
-from app.repositories.neo4j_graph import Neo4jFriendRepo
+from app.repositories.graph_db.neo4j_graph import Neo4jFriendRepo
 
 
 def main():
