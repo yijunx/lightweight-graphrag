@@ -134,7 +134,6 @@ The XYZ Company is a leading technology organization that specializes in softwar
 """
 
 
-
 class XInferenceLLM:
     def __init__(self, base_url: str, api_key: str, model: str):
         self.base_url = base_url
@@ -146,7 +145,12 @@ class XInferenceLLM:
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=[
-                {"role": "system", "content": ENTITY_RELATIONSHIPS_GENERATION_PROMPT.format(entity_types="ORGANIZATION,PERSON,LOCATION", input_text=context)},
+                {
+                    "role": "system",
+                    "content": ENTITY_RELATIONSHIPS_GENERATION_PROMPT.format(
+                        entity_types="ORGANIZATION,PERSON,LOCATION", input_text=context
+                    ),
+                },
                 # {
                 #     "role": "user",
                 #     "content": context,
@@ -154,16 +158,16 @@ class XInferenceLLM:
             ],
             temperature=0,
         )
-        
+
         return response.choices[0].message.content
 
 
 if __name__ == "__main__":
     from app.utils.config import env
+
     x = XInferenceLLM(
         base_url=env.EMBEDDING_ENDPOINT,
         api_key="speak and see it done",
-        model=env.LLM_MODEL_UID
+        model=env.LLM_MODEL_UID,
     )
     print(x.do_it(context=input_text))
-

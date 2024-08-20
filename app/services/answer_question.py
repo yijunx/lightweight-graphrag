@@ -1,6 +1,12 @@
+class Neo4jGPTQuery:
+    def __init__(self, url, user, password, openai_api_key):
+        self.driver = GraphDatabase.driver(url, auth=(user, password))
+        openai.api_key = openai_api_key
+        # construct schema
+        self.schema = self.generate_schema()
 
-
-schema_template = """
+    def generate_schema(self):
+        return """
   f"This is the schema representation of the Neo4j database.
   Node properties are the following:
   {node_props}
@@ -10,13 +16,6 @@ schema_template = """
   {rels}
   Make sure to respect relationship types and directions"
 """
-
-class Neo4jGPTQuery:
-    def __init__(self, url, user, password, openai_api_key):
-        self.driver = GraphDatabase.driver(url, auth=(user, password))
-        openai.api_key = openai_api_key
-        # construct schema
-        self.schema = self.generate_schema()
 
     def get_system_message(self):
         return f"""
@@ -50,7 +49,7 @@ class Neo4jGPTQuery:
         except CypherSyntaxError as e:
             # If out of retries
             if not retry:
-            return "Invalid Cypher syntax"
+                return "Invalid Cypher syntax"
             # Self-healing Cypher flow by
             # providing specific error to GPT-4
             print("Retrying")
@@ -64,5 +63,5 @@ class Neo4jGPTQuery:
                         Give me a improved query that works without any explanations or apologies""",
                     },
                 ],
-                retry=False
+                retry=False,
             )
