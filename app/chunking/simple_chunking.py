@@ -10,7 +10,7 @@ class SimpleChunker(BaseChunker):
     def chunk(self, text_file_path: str) -> Iterable[str]:  # Generator[str, None, None]
         with open(text_file_path, "r") as file:
             text = file.read()
-            lines = text.split("\n")
+            lines = text.split("\n\n")
 
         for i in range(0, len(lines), self.number_of_lines_per_chunk):
-            yield "\n".join(lines[i : i + self.number_of_lines_per_chunk])
+            yield "\n\n".join(lines[i : i + self.number_of_lines_per_chunk])

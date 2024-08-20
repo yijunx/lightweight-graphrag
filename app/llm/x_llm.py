@@ -146,7 +146,7 @@ class XInferenceLLM:
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=[
-                {"role": "system", "content": ENTITY_RELATIONSHIPS_GENERATION_PROMPT.format(entity_types="ORGANIZATION,PERSON", input_text=context)},
+                {"role": "system", "content": ENTITY_RELATIONSHIPS_GENERATION_PROMPT.format(entity_types="ORGANIZATION,PERSON,LOCATION", input_text=context)},
                 # {
                 #     "role": "user",
                 #     "content": context,
