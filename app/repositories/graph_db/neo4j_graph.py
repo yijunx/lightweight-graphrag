@@ -1,4 +1,4 @@
-from neo4j import Driver, GraphDatabase, RoutingControl, Record
+from neo4j import Driver, GraphDatabase, Record, RoutingControl
 
 from app.repositories.graph_db.base import BaseGraphRepo
 
@@ -13,13 +13,11 @@ class Neo4jGraphRepo(BaseGraphRepo):
     def get_driver(self) -> Driver:
         return GraphDatabase.driver(self.uri, auth=(self.username, self.password))
 
-    def add_entity(
-        self, driver: Driver, entity_type: str, name: str, description_id: str
-    ):
+    def add_entity(self, driver: Driver, entity_type: str, name: str, description: str):
         driver.execute_query(
             f"MERGE (a:{entity_type} {{name: $name, description: $description}})",
             name=name,
-            description=description_id,
+            description=description,
             database_=self.db_name,
         )
 
@@ -30,17 +28,15 @@ class Neo4jGraphRepo(BaseGraphRepo):
         entity_type_to: str,
         name_from: str,
         name_to: str,
-        description_id: str,
-        strength: int,
+        description: str,
     ):
         driver.execute_query(
             f"MATCH (a:{entity_type_from} {{name: $name_from}}) "
             f"MATCH (b:{entity_type_to} {{name: $name_to}}) "
-            f"MERGE (a)-[:RELATES {{description: $description, strength:$strength}}]->(b)",
+            f"MERGE (a)-[:RELATES {{description: $description}}]->(b)",
             name_from=name_from,
             name_to=name_to,
-            description=description_id,
-            strength=strength,
+            description=description,
             database_=self.db_name,
         )
 
@@ -67,13 +63,12 @@ class Neo4jGraphRepo(BaseGraphRepo):
         records: list[Record]
         records, _, _ = driver.execute_query(
             f"MATCH (a:{entity_type_from} {{name: $name_from}})-[r:RELATES]->(b:{entity_type_to} {{name: $name_to}}) "
-            f"RETURN r.description, r.strength",
+            f"RETURN r.description",
             name_from=name_from,
             name_to=name_to,
             database_=self.db_name,
             routing_=RoutingControl.READ,
         )
-        print([r.items() for r in records])
 
         res = ""
         for r in records:

@@ -1,9 +1,10 @@
+from typing import Iterable
+
 from llama_index.core.node_parser import SemanticSplitterNodeParser
 from llama_index.core.schema import Document
 from llama_index.embeddings.openai import OpenAIEmbedding
 
 from app.chunking.base import BaseChunker
-from typing import Iterable
 
 
 class LLamaIndexChunker(BaseChunker):
@@ -61,10 +62,3 @@ if __name__ == "__main__":
         model=env.EMBEDDING_MODEL_UID,
     )
     res = chunker.chunk("oldmanandthesea.txt")
-    print(res[1])
-    print()
-    print(res[10])
-    print()
-    print(res[100])
-    print()
-    print(len(res))

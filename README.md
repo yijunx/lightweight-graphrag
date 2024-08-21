@@ -13,7 +13,7 @@ my hobby is to reinvent the wheel
 ### ideas here
 
 * data processing
-    * chunk the text (theoldmanandthesea)
+    * chunk the text
     * each chunk
         * the llm is prompt to return node/relation in a format that can be easily parsed into cypher.
         * create an embedding and save to vector db

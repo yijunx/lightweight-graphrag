@@ -37,7 +37,7 @@ services:
     # The ports that will be accessible from outside the container - HTTP (7474) and Bolt (7687).
     ports:
       - "7474:7474"
-      # - "7687:7687"
+      - "7687:7687"
 
     # Passes the following environment variables to the container
     environment:

@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from datetime import datetime
+
+from pydantic import BaseModel
 
 
 class GraphSettings(BaseModel):
@@ -8,32 +9,30 @@ class GraphSettings(BaseModel):
     edge_properties: list[str]
 
 
-class Description(BaseModel):
-    id: str
-    describee_id: str
-    content: str
-    # created_at: datetime
-    # source: str
+# class Description(BaseModel):
+#     id: str
+#     describee_id: str
+#     content: str
+#     # created_at: datetime
+#     # source: str
 
 
-class EdgeDescription(Description):
-    strength: int
+# class EdgeDescription(Description):
+#     strength: int
 
 
 class Entity(BaseModel):
-    id: str
     entity_name: str
     entity_type: str
-    descriptions: list[Description]
+    description: str
 
 
 class Relation(BaseModel):
-    id: str
     entity_name_from: str
     entity_name_to: str
     entity_type_from: str
     entity_type_to: str
-    descriptions: list[Description]
+    description: str
 
 
 # on neo4j:
