@@ -37,3 +37,37 @@ Before creating a property graph database, it is important to develop an appropr
 
 however such data model will have to change based on the business use. The person label for linkedin will be different compared to the person label for literature.
 
+### pipeline
+
+* chunk
+* from chunk get entities and relation
+* for entity and relation
+    * create id
+    * this id is used for postgres, to store the descriptions
+* embeding the chunks for rag (raw_text_colletion)
+
+* cronjobs:
+    * postgres
+    * node resolution
+
+### answer question
+
+* who are the main characters:
+    * forms the cypher of getting 10 most connected PERSON nodes
+    * use the cypher to 
+
+
+* who is closely related to xxx
+
+
+* what is xxxxx
+
+* who does xxx love?
+    * forms the cypher of most connected nodes
+    * list out the persons and the relation ids
+    * from relation ids, get the context from postgres
+    * the rag
+
+
+
+
