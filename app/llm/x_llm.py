@@ -2,6 +2,7 @@ from typing import Iterable, List, Union
 
 import numpy as np
 from openai import Client
+from app.llm.base import BaseLLM
 
 
 ENTITY_RELATIONSHIPS_GENERATION_PROMPT = """
@@ -129,7 +130,7 @@ output:
 """
 
 
-class XInferenceLLM:
+class XInferenceLLM(BaseLLM):
     def __init__(self, base_url: str, api_key: str, model: str):
 
         # to make the client
@@ -162,7 +163,6 @@ class XInferenceLLM:
 
         return response.choices[0].message.content
 
-    
     def contruct_cypher(self, question: str) -> str:
         # cypher = ""
         # for entity in entities:
@@ -170,7 +170,7 @@ class XInferenceLLM:
         # for relation in relations:
         #     cypher += f"CREATE ({relation['source_entity']})-[:{relation['relationship_description']}]->({relation['target_entity']})\n"
         # return cypher
-        system_message =  """
+        system_message = """
 Task: Generate Cypher queries to query a Neo4j graph database based on the provided schema definition.
 Instructions:
 Use only the provided relationship types and properties.
@@ -200,9 +200,7 @@ Note: Do not include any explanations or apologies in your responses.
         #     messages.extend(history)
 
         completions = self.client.chat.completions.create(
-            model=self.model_name,
-            temperature=0,
-            messages=messages
+            model=self.model_name, temperature=0, messages=messages
         )
         return completions.choices[0].message.content
 

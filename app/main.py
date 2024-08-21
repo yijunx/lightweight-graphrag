@@ -1,11 +1,11 @@
-from app.repositories.graph_db.neo4j_graph import Neo4jFriendRepo
+from app.repositories.graph_db.neo4j_graph import Neo4jGraphRepo
 from app.services.data_processing import FriendService
 from app.utils.config import env
 
 
 def main():
     s = FriendService(
-        friend_repo=Neo4jFriendRepo(
+        friend_repo=Neo4jGraphRepo(
             uri=env.NEO4J_URI,
             username=env.NEO4J_USERNAME,
             password=env.NEO4J_PASSWORD,

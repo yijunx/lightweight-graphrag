@@ -20,14 +20,14 @@ class EdgeDescription(Description):
     strength: int
 
 
-class Node(BaseModel):
+class Entity(BaseModel):
     id: str
     entity_name: str
     entity_type: str
     descriptions: list[Description]
 
 
-class Edge(BaseModel):
+class Relation(BaseModel):
     id: str
     entity_name_from: str
     entity_name_to: str
@@ -37,14 +37,10 @@ class Edge(BaseModel):
 
 
 # on neo4j:
-# 
+#
 
 graph_settings = GraphSettings(
     entity_types=["PERSON", "ORGANIZATION", "LOCATION"],
     node_properties=["name", "description"],
-    edge_properties=["strength", "description"]
+    edge_properties=["strength", "description"],
 )
-
-
-
-
