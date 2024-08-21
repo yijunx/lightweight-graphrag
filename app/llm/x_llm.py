@@ -130,7 +130,7 @@ output:
 
 
 class XInferenceLLM:
-    def __init__(self, base_url: str, api_key: str, model: str, entity_types: list[str]):
+    def __init__(self, base_url: str, api_key: str, model: str):
 
         # to make the client
         self.base_url = base_url
@@ -140,7 +140,7 @@ class XInferenceLLM:
 
         # what to extract from the text
         # and what kind of cypher llm generates
-        self.entity_types = entity_types
+        # self.entity_types = entity_types
 
     def extract_entity_and_relation(self, context: str) -> str:
         response = self.client.chat.completions.create(
@@ -179,12 +179,14 @@ If you cannot generate a Cypher statement based on the provided schema, explain 
 Schema:
 
 This is the schema representation of the Neo4j database.
+Node types are the following:
+Person,Organization,Location
 Node properties are the following:
-{node_props}
+name,description
 Relationship properties are the following:
-{rel_props}
+strength,description
 Relationship point from source to target nodes
-{rels}
+RELATES
 Make sure to respect relationship types and directions
 
 Note: Do not include any explanations or apologies in your responses.
@@ -216,11 +218,25 @@ if __name__ == "__main__":
 
     from app.chunking.simple_chunking import SimpleChunker
 
-    chunker = SimpleChunker()
-    input_text = """
-    The XYZ Company is a leading technology organization that specializes in software development and data analytics. Alice is the CEO of the company and she is responsible for setting the strategic direction and overseeing the overall operations. Bob is the head of the engineering department and he leads a team of talented software engineers who develop innovative solutions for clients. Carol is the chief data scientist and she is in charge of analyzing large datasets to extract valuable insights for the organization. Debby is the project manager and she ensures that projects are delivered on time and within budget. Emily is a senior software engineer who works closely with Bob and the engineering team to implement new features and improve existing software. Francis is the marketing manager and he is responsible for promoting the company's products and services to potential clients. The strong relationship among Alice, Bob, Carol, Debby, Emily, and Francis is crucial for the success of the XYZ Company. They collaborate closely, share information, and support each other to achieve the company's goals and deliver high-quality solutions to clients.
-    """
-    for chunk in chunker.chunk(text_file_path="crime_and_punishment.txt"):
-        print(chunk)
-        print(x.extract_entity_and_relation(context=chunk))
-        break
+    # chunker = SimpleChunker()
+    # # input_text = """
+    # # The XYZ Company is a leading technology organization that specializes in software development and data analytics. Alice is the CEO of the company and she is responsible for setting the strategic direction and overseeing the overall operations. Bob is the head of the engineering department and he leads a team of talented software engineers who develop innovative solutions for clients. Carol is the chief data scientist and she is in charge of analyzing large datasets to extract valuable insights for the organization. Debby is the project manager and she ensures that projects are delivered on time and within budget. Emily is a senior software engineer who works closely with Bob and the engineering team to implement new features and improve existing software. Francis is the marketing manager and he is responsible for promoting the company's products and services to potential clients. The strong relationship among Alice, Bob, Carol, Debby, Emily, and Francis is crucial for the success of the XYZ Company. They collaborate closely, share information, and support each other to achieve the company's goals and deliver high-quality solutions to clients.
+    # # """
+    # for chunk in chunker.chunk(text_file_path="crime_and_punishment.txt"):
+    #     print(chunk)
+    #     print(x.extract_entity_and_relation(context=chunk))
+    #     break
+
+    # print(x.contruct_cypher(question="What is relation of Tom and Emily"))
+
+    # MATCH (p1:Person {name: 'Tom'})-[:RELATES]->(p2:Person {name: 'Emily'})
+    # RETURN p1, p2, p1.RELATES.p2.strength, p1.RELATES.p2.description
+
+    print(x.contruct_cypher(question="What organizations are related to Tom"))
+
+    # MATCH (p:Person {name: 'Tom'})-[:RELATES]->(o:Organization)
+    # RETURN o.name, o.description
+
+    print(x.contruct_cypher(question="Who is Tom"))
+
+    # now bring the cypher to the neo4j and see if it works

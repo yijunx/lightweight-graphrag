@@ -10,9 +10,10 @@ class GraphSettings(BaseModel):
 
 class Description(BaseModel):
     id: str
+    describee_id: str
     content: str
-    created_at: datetime
-    source: str
+    # created_at: datetime
+    # source: str
 
 
 class EdgeDescription(Description):
@@ -33,6 +34,17 @@ class Edge(BaseModel):
     entity_type_from: str
     entity_type_to: str
     descriptions: list[Description]
+
+
+# on neo4j:
+# 
+
+graph_settings = GraphSettings(
+    entity_types=["PERSON", "ORGANIZATION", "LOCATION"],
+    node_properties=["name", "description"],
+    edge_properties=["strength", "description"]
+)
+
 
 
 
